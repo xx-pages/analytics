@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overall Score</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
   
   <style>
     /* 1. 卡片主容器 */
@@ -115,12 +116,177 @@
     .score-table .col-highlight {
       background-color: #f0f7ff;
     }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+      margin: 0;
+      padding: 10px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #eef2f7;
+      margin-bottom: 20px;
+    }
+
+    .chart-card-header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+  .btn-add {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+      -2px -2px 5px rgba(255, 255, 255, 0.8),
+       2px  2px 5px rgba(15, 23, 42, 0.12);
+    transition: all 0.15s ease;
+    }
+
+  .btn-add:hover {
+    color: #003366;
+    background: #f8fafc;
+    box-shadow: 
+      -3px -3px 6px rgba(255, 255, 255, 0.9),
+       3px  3px 6px rgba(15, 23, 42, 0.16);
+   }
+
+  .btn-add:active {
+    box-shadow: 
+      inset 1.5px 1.5px 3px rgba(15, 23, 42, 0.15),
+      inset -1.5px -1.5px 3px rgba(255, 255, 255, 0.8);
+    transform: translateY(1px);
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 350px;
+    }
+
+    /* 弹窗样式 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 12px;
+      width: 320px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h4 {
+      margin: 0;
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      color: #0f172a;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #94a3b8;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #003366;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #003366;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body style="background: transparent; padding: 10px;">
 
-  <!-- target card -->
+  <!-- Benchmark 数据卡片 -->
   <div class="zju-benchmark-card">
     <div class="card-header">
       <div class="univ-info">
@@ -144,6 +310,44 @@
         <tbody id="table-body">
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- 趋势图表卡片 -->
+  <div class="card">
+    <div class="chart-card-header">
+      <button class="btn-add" onclick="openModal()" title="录入成绩" aria-label="录入成绩">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+    <!-- ECharts 图表容器 -->
+    <div id="trendChart" class="chart-container"></div>
+  </div>
+
+  <!-- 按年月日录入成绩弹窗 -->
+  <div id="scoreModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>录入考试成绩</h4>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="examDate">考试日期</label>
+          <input type="date" id="examDate">
+        </div>
+        <div class="form-group">
+          <label for="scoreInput">实际总分 (满分 750)</label>
+          <input type="number" id="scoreInput" placeholder="请输入实际得分" min="0" max="750">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal()">取消</button>
+        <button class="btn-primary" onclick="submitScore()">保存</button>
+      </div>
     </div>
   </div>
 
@@ -180,6 +384,173 @@
       renderTable(type);
     }
     renderTable('physics');
+
+    // 预设默认数据（防止 KV 为空时页面留白）
+    const defaultScores = [
+      { date: '2025-09-15', score: 622 },
+      { date: '2025-10-20', score: 635 },
+      { date: '2025-11-28', score: 628 },
+      { date: '2026-01-10', score: 642 },
+      { date: '2026-03-05', score: 650 },
+      { date: '2026-04-12', score: 668 },
+      { date: '2026-05-18', score: 672 }
+    ];
+
+    let scoreData = [];
+
+    const chartDom = document.getElementById('trendChart');
+    const myChart = echarts.init(chartDom);
+
+    // 从 Cloudflare KV 数据库获取数据
+    async function loadScoresFromKV() {
+      try {
+        const res = await fetch('/api/scores');
+        const data = await res.json();
+        
+        if (Array.isArray(data) && data.length > 0) {
+          scoreData = data;
+        } else {
+          scoreData = defaultScores;
+        }
+        renderChart();
+      } catch (err) {
+        console.error('从 KV 加载成绩失败，使用预设数据:', err);
+        scoreData = defaultScores;
+        renderChart();
+      }
+    }
+
+    function renderChart() {
+      scoreData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const dates = scoreData.map(item => item.date);
+      const scores = scoreData.map(item => item.score);
+
+      const totalCount = scoreData.length;
+      let startPercent = 70;
+      if (totalCount > 0) {
+        const visibleCount = 10;
+        if (totalCount > visibleCount) {
+          startPercent = Math.floor(((totalCount - visibleCount) / totalCount) * 100);
+        } else {
+          startPercent = 0;
+        }
+      }
+
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: function (params) {
+            return `
+              <div style="font-size:12px; color:#64748b;">考试日期</div>
+              <div style="font-weight:bold; font-size:14px; color:#0f172a; margin-bottom:4px;">${params.name}</div>
+              <div style="font-size:12px; color:#64748b;">本次总分</div>
+              <div style="font-weight:bold; font-size:18px; color:#003366;">${params.value} <span style="font-size:12px">分</span></div>
+            `;
+          }
+        },
+        grid: {
+          top: '12%',
+          left: '3%',
+          right: '4%',
+          bottom: '8%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: dates,
+          axisLabel: { show: false },
+          axisTick: { show: false },
+          axisLine: { lineStyle: { color: '#cbd5e1' } }
+        },
+        yAxis: {
+          type: 'value',
+          min: 450,
+          max: 750,
+          interval: 50,
+          splitLine: { lineStyle: { color: '#f1f5f9' } }
+        },
+        dataZoom: [
+          {
+            type: 'inside',
+            start: startPercent,
+            end: 100
+          }
+        ],
+        series: [
+          {
+            name: '考试成绩',
+            type: 'line',
+            smooth: 0.3,
+            data: scores,
+            symbol: 'circle',
+            symbolSize: 8,
+            cursor: 'pointer',
+            lineStyle: { color: '#003366', width: 3 },
+            itemStyle: { color: '#003366', borderWidth: 2, borderColor: '#ffffff' },
+            markPoint: {
+              data: [
+                { type: 'max', name: '最高成绩' }
+              ]
+            },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: 'rgba(0, 51, 102, 0.25)' },
+                { offset: 1, color: 'rgba(0, 51, 102, 0.0)' }
+              ])
+            }
+          }
+        ]
+      };
+      myChart.setOption(option);
+    }
+
+    loadScoresFromKV();
+    window.addEventListener('resize', () => myChart.resize());
+
+    function openModal() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('examDate').value = today;
+      document.getElementById('scoreModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').classList.remove('active');
+    }
+
+    async function submitScore() {
+      const dateVal = document.getElementById('examDate').value;
+      const scoreVal = document.getElementById('scoreInput').value;
+
+      if (!dateVal) {
+        alert('请选择考试日期');
+        return;
+      }
+      if (!scoreVal || scoreVal < 0 || scoreVal > 750) {
+        alert('');
+        return;
+      }
+
+      scoreData.push({
+        date: dateVal,
+        score: parseInt(scoreVal)
+      });
+
+      try {
+        await fetch('/api/scores', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(scoreData)
+        });
+      } catch (err) {
+        console.error('保存至 KV 失败:', err);
+      }
+
+      renderChart();
+      document.getElementById('scoreInput').value = '';
+      closeModal();
+    }
   </script>
 
 </body>
