@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overall Score</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* 1. 卡片主容器 */
+    .zju-benchmark-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #eef2f7;
+      margin-bottom: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* 2. 头部区域 */
+    .card-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .univ-info h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #0f172a;
+    }
+
+    /* 文理科切换按钮 */
+    .type-switch {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 2px;
+      border-radius: 6px;
+      gap: 2px;
+    }
+
+    .switch-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #64748b;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .switch-btn.active {
+      background: #ffffff;
+      color: #003366;
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* 3. 数据表格样式 */
+    .score-table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .score-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .score-table th {
+      background-color: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+      padding: 10px 8px;
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+    }
+
+    .score-table td {
+      padding: 12px 8px;
+      color: #334155;
+      border-right: 1px solid #e2e8f0;
+      background-color: #ffffff;
+    }
+
+    .score-table th:last-child,
+    .score-table td:last-child {
+      border-right: none;
+    }
+
+    .score-table .score-highlight {
+      font-size: 18px;
+      font-weight: 800;
+      color: #003366;
+    }
+
+    .score-table .score-unit {
+      font-size: 11px;
+      font-weight: normal;
+      color: #64748b;
+    }
+
+    .score-table .col-highlight {
+      background-color: #f0f7ff;
+    }
+  </style>
+</head>
+
+<body style="background: transparent; padding: 10px;">
+
+  <!-- target card -->
+  <div class="zju-benchmark-card">
+    <div class="card-header">
+      <div class="univ-info">
+        <h3>浙江大学 - 河南省录取数据</h3>
+      </div>
+      <div class="type-switch">
+        <button id="btn-physics" class="switch-btn active" onclick="switchType('physics')">物理类</button>
+        <button id="btn-history" class="switch-btn" onclick="switchType('history')">历史类</button>
+      </div>
+    </div>
+
+    <div class="score-table-container">
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th>年份</th>
+            <th>录取分数</th>
+            <th>全省排名参考</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const benchmarkData = {
+      physics: [
+        { year: "2024年", score: "670", rank: "省排名约 2,200 名", highlight: false },
+        { year: "2025年", score: "671", rank: "省排名 2,395 名", highlight: false },
+        { year: "2026年", score: "672", rank: "建议全省前 1,000 名", highlight: true }
+      ],
+      history: [
+        { year: "2024年", score: "648", rank: "省排名约 600 名", highlight: false },
+        { year: "2025年", score: "644", rank: "省排名 660 名", highlight: false },
+        { year: "2026年", score: "645", rank: "建议全省前 300 名", highlight: true }
+      ]
+    };
+
+    function renderTable(type) {
+      const tbody = document.getElementById("table-body");
+      const data = benchmarkData[type];
+
+      tbody.innerHTML = data.map(item => `
+        <tr class="${item.highlight ? 'col-highlight' : ''}">
+          <td>${item.highlight ? '<strong>' + item.year + '</strong>' : item.year}</td>
+          <td class="score-highlight">${item.score} <span class="score-unit">分</span></td>
+          <td>${item.highlight ? '<strong>' + item.rank + '</strong>' : item.rank}</td>
+        </tr>
+      `).join('');
+    }
+
+    function switchType(type) {
+      document.getElementById("btn-physics").classList.toggle("active", type === 'physics');
+      document.getElementById("btn-history").classList.toggle("active", type === 'history');
+      renderTable(type);
+    }
+    renderTable('physics');
+  </script>
+
+</body>
+</html>
