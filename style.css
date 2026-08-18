@@ -1,0 +1,355 @@
+/* ===== 1. 全局变量定义 ===== */
+:root {
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --zju-blue: #003366;
+  --zju-tag-bg: #f0f4f8;
+}
+
+/* ===== 2. 通用重置 ===== */
+html, body {
+  background-color: #f0f4f8 !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== 3. 顶部导航栏 ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn, .user-avatar-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.user-avatar-btn {
+  background-color: #e0e7ff;
+  color: #3730a3;
+  font-weight: 600;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+/* ===== 4. 主容器与视图管理 ===== */
+.container {
+  max-width: 520px;
+  margin: 20px auto 0;
+  padding: 0 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: transparent !important;
+}
+
+#view-overall {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* 页面视图切换动画 */
+.page-view {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== 5. 核心卡片基础样式 ===== */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px 26px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 左侧求是蓝高亮条 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: var(--zju-blue);
+  border-top-left-radius: var(--radius-lg);
+  border-bottom-left-radius: var(--radius-lg);
+}
+
+/* ===== 6. 倒计时卡片细节 ===== */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0px;
+  margin-bottom: 18px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 6px;
+}
+
+.time-box .number {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--zju-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.time-box .unit {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.colon {
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: -12px;
+}
+
+/* ===== 7. 目标卡片样式 ===== */
+.university-card .card-header {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.uni-title-box {
+  display: flex;
+  align-items: center; 
+  gap: 8px;
+}
+
+.uni-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--zju-blue);
+  line-height: 1;
+}
+
+.uni-logo,
+.uni-logo-inline {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.uni-tags {
+  display: flex;
+  gap: 4px;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+.tag-zju {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--zju-blue);
+  background-color: var(--zju-tag-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+.uni-motto-box {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-left: 2px;
+}
+
+.uni-motto {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.motto-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* ===== 8. 每日一言卡片细节 ===== */
+.quote-content {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.quote-author {
+  font-size: 12px;
+  color: var(--zju-blue);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ===== 9. 侧边抽屉菜单样式 ===== */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: var(--card-bg);
+  z-index: 201;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.drawer-username {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+  background-color: var(--zju-tag-bg);
+  color: var(--zju-blue);
+}
+
+.nav-icon {
+  flex-shrink: 0;
+}

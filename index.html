@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZyX</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部导航栏 -->
+  <header class="navbar">
+    <button class="icon-btn" id="menuBtn" aria-label="菜单">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    
+    <div class="navbar-right">
+      <button class="icon-btn" aria-label="搜索">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+
+      <button class="icon-btn" aria-label="切换主题">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+      
+      <button class="user-avatar-btn">
+        <span class="avatar">X_x</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- main-container -->
+  <main class="container">
+
+    <div id="view-overall">
+
+      <!-- 1. 计时卡片 -->
+      <section class="countdown-section">
+        <div class="card countdown-card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>距离高考</h3>
+            </div>
+          </div>
+          
+          <div class="countdown-timer">
+            <div class="time-box">
+              <span class="number" id="days">000</span>
+              <span class="unit">天</span>
+            </div>
+            <span class="colon">:</span>
+            <div class="time-box">
+              <span class="number" id="hours">00</span>
+              <span class="unit">时</span>
+            </div>
+            <span class="colon">:</span>
+            <div class="time-box">
+              <span class="number" id="minutes">00</span>
+              <span class="unit">分</span>
+            </div>
+            <span class="colon">:</span>
+            <div class="time-box">
+              <span class="number" id="seconds">00</span>
+              <span class="unit">秒</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 目标卡片（已修复 DOM 闭合） -->
+      <section class="target-university-section">
+        <div class="card university-card">
+          <div class="card-header">
+            <div class="uni-title-box">
+              <img src="https://ghfast.top/https://raw.githubusercontent.com/shanqla5c/Score-Analysis/refs/heads/main/assets/zju.png" alt="校徽" class="uni-logo">
+              <h3 class="uni-name">浙江大学</h3>
+              <div class="uni-tags">
+                <span class="tag-zju">985</span>
+                <span class="tag-zju">211</span>
+                <span class="tag-zju">双一流</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 校训 -->
+          <div class="uni-motto-box">
+            <p class="uni-motto">“求是创新” <span class="motto-sub">- 1938年 竺可桢</span></p>
+            <p class="uni-motto">“务求实学，存是去非” <span class="motto-sub">- 1988年</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 一言卡片 -->
+      <section class="daily-quote-section">
+        <div class="card quote-card">
+          <p class="quote-content" id="quote-content">加载中...</p>
+          <p class="quote-author" id="quote-author">—</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- 2. iframe -->
+    <iframe id="content-frame" src="" style="display: none; width: 100%; border: none; min-height: 500px; background: transparent;"></iframe>
+
+  </main>
+
+  <!-- 菜单栏面板 -->
+  <div class="menu-overlay" id="menuOverlay"></div>
+  
+  <aside class="sidebar-drawer" id="sidebarDrawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <p class="drawer-username">X_x Dashboard</p>
+      </div>
+      <button class="icon-btn" id="closeMenuBtn" aria-label="关闭菜单">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <nav class="drawer-nav">
+
+      <a href="#" class="nav-item active">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+          <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+          <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <!-- 综合成绩（移除了多余的 active） -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Overall score</span>
+      </a>
+
+      <!-- 语文 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Chinese</span>
+      </a>
+
+      <!-- 数学 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19L19 4"></path>
+          <circle cx="7" cy="7" r="2"></circle>
+          <circle cx="17" cy="17" r="2"></circle>
+        </svg>
+        <span>Math</span>
+      </a>
+
+      <!-- 英语 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m5 8 6 6"></path>
+          <path d="m4 14 6-6 2-3"></path>
+          <path d="M2 5h12"></path>
+          <path d="M7 2h1"></path>
+          <path d="m22 22-5-10-5 10"></path>
+          <path d="M14 18h6"></path>
+        </svg>
+        <span>English</span>
+      </a>
+
+      <!-- 物理 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>Physics</span>
+      </a>
+
+      <!-- 化学 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55A2 2 0 0 0 6.508 23.5h10.984a2 2 0 0 0 1.788-2.95L14.21 10.423a2 2 0 0 1-.21-.896V2"></path>
+          <path d="M8.5 2h7"></path>
+          <path d="M7 16h10"></path>
+        </svg>
+        <span>Chemical</span>
+      </a>
+
+      <!-- 政治 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="21" x2="21" y2="21"></line>
+          <line x1="6" y1="18" x2="6" y2="11"></line>
+          <line x1="10" y1="18" x2="10" y2="11"></line>
+          <line x1="14" y1="18" x2="14" y2="11"></line>
+          <line x1="18" y1="18" x2="18" y2="11"></line>
+          <polygon points="12 3 2 9 22 9 12 3"></polygon>
+        </svg>
+        <span>Politics</span>
+      </a>
+
+      <!-- 历史 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>History</span>
+      </a>
+
+      <!-- 生物 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 22C2 12 10 2 22 2"></path>
+          <path d="M12 12C12 7 17 2 22 2"></path>
+          <path d="M2 22C7 22 12 17 12 12"></path>
+        </svg>
+        <span>Biology</span>
+      </a>
+
+      <!-- 地理 -->
+      <a href="#" class="nav-item">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>Geography</span>
+      </a>
+    </nav>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
