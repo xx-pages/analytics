@@ -2,8 +2,8 @@
 export async function onRequestGet(context) {
   const { env } = context;
   
-  // 从绑定名为 SCORE_KV 的数据库里读取 scores_data
-  const data = await env.SCORE_KV.get("scores_data");
+  // 从绑定名为 KV 的数据库里读取 scores_data
+  const data = await env.KV.get("scores_data");
   
   return new Response(data || "[]", {
     headers: {
@@ -21,7 +21,7 @@ export async function onRequestPost(context) {
     const newScores = await request.json();
     
     // 把新成绩写入 KV 空间
-    await env.SCORE_KV.put("scores_data", JSON.stringify(newScores));
+    await env.KV.put("scores_data", JSON.stringify(newScores));
     
     return new Response(JSON.stringify({ success: true }), {
       headers: { "Content-Type": "application/json" }
