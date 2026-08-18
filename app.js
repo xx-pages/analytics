@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////// 倒计时小组件 ///////////////////////////////////////////////
 function updateCountdown() {
   const now = new Date();
-  const targetYear = 2028;
+  const targetYear = 2029;
   const targetDate = new Date(`${targetYear}-06-07T09:00:00`);
 
   const diff = targetDate - now;
