@@ -453,10 +453,10 @@
           }
         },
         grid: {
-          top: '12%',
-          left: '3%',
-          right: '4%',
-          bottom: '8%',
+          top: '15%',
+          left: '2%',
+          right: '5%',
+          bottom: '5%',
           containLabel: true
         },
         xAxis: {
@@ -510,7 +510,10 @@
     }
 
     loadScoresFromKV();
-    window.addEventListener('resize', () => myChart.resize());
+    const resizeObserver = new ResizeObserver(() => {
+      myChart.resize();
+    });
+    resizeObserver.observe(document.getElementById('trendChart'));
 
     function openModal() {
       const today = new Date().toISOString().split('T')[0];
