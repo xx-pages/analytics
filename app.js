@@ -92,17 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 学科路由映射表
   const pageRoutes = {
-    "Dashboard": "overall",
-    "Overall score": "pages/overall_score.html",
-    "Chinese": "pages/chinese.html",
-    "Math": "pages/math.html",
-    "English": "pages/english.html",
-    "Physics": "pages/physics.html",
-    "Chemical": "pages/chemical.html",
-    "Biology": "pages/biology.html",
-    "Politics": "pages/politics.html",
-    "History": "pages/history.html",
-    "Geography": "pages/geography.html"
+    "主页": "overall",
+    "总分": "pages/overall_score.html",
+    "语文": "pages/chinese.html",
+    "数学": "pages/math.html",
+    "英语": "pages/english.html",
+    "物理": "pages/physics.html",
+    "化学": "pages/chemical.html",
+    "生物": "pages/biology.html",
+    "政治": "pages/politics.html",
+    "历史": "pages/history.html",
+    "地理": "pages/geography.html"
   };
 
   navItems.forEach((item) => {
